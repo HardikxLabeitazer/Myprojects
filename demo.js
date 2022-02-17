@@ -19,5 +19,10 @@ browserWillbeLaunchedPromise.then(function(browserInstance){
     console.log("Website opened");
 })
 
+console.log('Hello');
 
+console.log('Hello');
+console.log('Hello');
+console.log('Hello');
+console.log('Hello');
 console.log("After ");
