@@ -21,8 +21,5 @@ browserWillbeLaunchedPromise.then(function(browserInstance){
 
 console.log('Hello');
 
-console.log('Hello');
-console.log('Hello');
-console.log('Hello');
-console.log('Hello');
+
 console.log("After ");
