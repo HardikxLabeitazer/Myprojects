@@ -7,7 +7,10 @@ let browserWillbeLaunchedPromise = puppeteer.launch({
 });
 
 browserWillbeLaunchedPromise.then(function(browserInstance){
-    return browserInstance.newPage();
+   let newTabpromise = browserInstance.newPage();
+   return newTabpromise;
+}).then(function(newPage){
+    
 })
 
 
