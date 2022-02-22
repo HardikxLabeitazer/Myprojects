@@ -1,6 +1,6 @@
-const url = "https://www.espncricinfo.com/series/ipl-2020-21-1210595/match-results"
-const cheerio = require("cheerio");
 
+const cheerio = require("cheerio");
+const scorecardobj = require("./scorecard");
 const request = require("request");
 
 
@@ -23,8 +23,12 @@ function extractAllLink(html){
         let link = ch(scorecard[i]).attr("href");
         let fullLink = "https://www.espncricinfo.com"+link;
 
-        console.log(fullLink);
+        scorecardobj.ps(fullLink);
+
+        
     }
 }
 
-getALLMatchLink(url);
+module.exports ={
+    getALLMatch :getALLMatchLink,
+};
