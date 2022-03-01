@@ -44,8 +44,12 @@ browserWillbeLaunchedPromise.then(function (browserInstance) {
 }).then(function(questionArr){
     console.log("No of questions:"+questionArr.length);
 
-    let questionwillbesolvedpromise = questionsolver(page,questionArr[0],codefile.answers[0]);
-    return questionwillbesolvedpromise;
+    //let questionwillbesolvedpromise = questionsolver(page,questionArr[0],codefile.answers[0]);
+    //return questionwillbesolvedpromise;
+    for(let i = 0;i<questionArr.length;i++){
+        let questionwillbesolvedpromise = questionsolver(page,questionArr[i],codefile.answers[i]);
+        
+    }
 })
 
 function waitAndClick(selector,cpage){
@@ -89,7 +93,34 @@ function questionsolver(page,question,answer){
           }).then(function(){
              let XisPressedPromise = page.keyboard.press('X' , {delay:20})
              return XisPressedPromise
-          })
+          }).then(function(){
+            let ctrlIsReleasedPromise = page.keyboard.up('Control')
+            return ctrlIsReleasedPromise
+         }).then(function () {
+           let waitForEditorPromise = waitAndClick(
+             ".monaco-editor.no-user-select.vs",
+             page
+           );
+           return waitForEditorPromise;
+         }).then(function () {
+           let ctrlonHoldPromise = page.keyboard.down('Control');
+           return ctrlonHoldPromise
+         }).then(function(){
+           let AisPressedPromise = page.keyboard.press('A' , {delay : 20});
+           return AisPressedPromise
+         }).then(function(){
+           let VisPressedPromise = page.keyboard.press('V' , {delay:20})
+           return VisPressedPromise
+        }).then(function(){
+         let ctrlIsReleasedPromise = page.keyboard.up('Control')
+         return ctrlIsReleasedPromise
+      }).then(function(){
+         return page.click('.hr-monaco__run-code' , {delay : 20})
+      }).then(function(){
+        resolve()
+      }).catch(function(err){
+        console.log(err)
+      })
     })
 }
 
