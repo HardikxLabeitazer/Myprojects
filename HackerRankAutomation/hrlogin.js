@@ -1,5 +1,5 @@
 const puppeteer = require("puppeteer");
-
+const codefile = require("./code");
 let email = 'facowo9285@bepureme.com';
 let password = 'hardik';
 console.log("Before");
@@ -43,6 +43,9 @@ browserWillbeLaunchedPromise.then(function (browserInstance) {
     return ChallengesArrPromise
 }).then(function(questionArr){
     console.log("No of questions:"+questionArr.length);
+
+    let questionwillbesolvedpromise = questionsolver(page,questionArr[0],codefile.answers[0]);
+    return questionwillbesolvedpromise;
 })
 
 function waitAndClick(selector,cpage){
@@ -59,7 +62,36 @@ function waitAndClick(selector,cpage){
     })
 }
 
+function questionsolver(page,question,answer){
 
+    return new Promise(function(resolve,reject){
+
+        let questionwillbeclickedpromise = question.click();
+        questionwillbeclickedpromise.then(function(){
+            let waitForEditorpromise = waitAndClick(".monaco-editor.no-user-select.vs",page);
+            return waitForEditorpromise;
+        }).
+        then(function(){
+            return waitAndClick(".checkbox-input",page)
+        }).
+        then(function(){
+            return page.waitForSelector('.text-area.custominput')
+        }).then(function(){
+            return page.type('.text-area.custominput',answer,{delay:20})
+        }).then(function(){
+            console.log("Answer Typed");
+        })  .then(function () {
+            let ctrlIsPressedPromise = page.keyboard.down('Control');
+            return ctrlIsPressedPromise
+          }).then(function(){
+            let AisPressedPromise = page.keyboard.press('A' , {delay : 20});
+            return AisPressedPromise
+          }).then(function(){
+             let XisPressedPromise = page.keyboard.press('X' , {delay:20})
+             return XisPressedPromise
+          })
+    })
+}
 
 
 console.log("After");
