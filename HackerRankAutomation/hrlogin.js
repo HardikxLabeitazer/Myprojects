@@ -1,14 +1,40 @@
 const puppeteer = require("puppeteer");
+const loginLink = "https://www.hackerrank.com/auth/login";
 const codefile = require("./code");
 let email = 'facowo9285@bepureme.com';
 let password = 'hardik';
 console.log("Before");
 
 
-let page;
 
 
 
+(async function () {
+    try {
+      let browserWillbeLaunced = await puppeteer.launch({
+        headless: false,
+        defaultViewport: null,
+        args: ["--start-maximized"],
+      });
+  
+      let newTab = await browserWillbeLaunced.newPage();
+  
+      await newTab.goto(loginLink);
+  
+      await newTab.type("input[id='input-1']", email, {
+        delay: 100,
+      });
+  
+      await newTab.type("input[id='input-2']", password, {
+        delay: 100,
+      });
+  
+      await newTab.click('button[data-analytics="LoginPassword"]', {
+        delay: 100,
+      });
+    } catch (error) {}
+  })();
+//----------------------------------------------------------------
 let browserWillbeLaunchedPromise = puppeteer.launch({
     headless: false,
     defaultViewport: null,
@@ -30,99 +56,99 @@ browserWillbeLaunchedPromise.then(function (browserInstance) {
     let typepassPromise = page.type("input[id='input-2']", password, { delay: 100 });
     return typepassPromise;
 }).then(function () {
-   let loginpromise= page.click("button[data-analytics='LoginPassword']", { delay: 100 });
-   return loginpromise;
-}).then(function(){
-    let algoWillBeclickPromise = waitAndClick('.topic-card a[data-attr1="algorithms"]',page);
+    let loginpromise = page.click("button[data-analytics='LoginPassword']", { delay: 100 });
+    return loginpromise;
+}).then(function () {
+    let algoWillBeclickPromise = waitAndClick('.topic-card a[data-attr1="algorithms"]', page);
     return algoWillBeclickPromise;
-}).then(function(){
-    let gettowarmuppromise = waitAndClick('input[value="warmup"]',page);
+}).then(function () {
+    let gettowarmuppromise = waitAndClick('input[value="warmup"]', page);
     return gettowarmuppromise;
-}).then(function(){
-    let ChallengesArrPromise = page.$$('.ui-btn.ui-btn-normal.primary-cta.ui-btn-line-primary.ui-btn-styled' , {delay : 100})
+}).then(function () {
+    let ChallengesArrPromise = page.$$('.ui-btn.ui-btn-normal.primary-cta.ui-btn-line-primary.ui-btn-styled', { delay: 100 })
     return ChallengesArrPromise
-}).then(function(questionArr){
-    console.log("No of questions:"+questionArr.length);
+}).then(function (questionArr) {
+    console.log("No of questions:" + questionArr.length);
 
     //let questionwillbesolvedpromise = questionsolver(page,questionArr[0],codefile.answers[0]);
     //return questionwillbesolvedpromise;
-    for(let i = 0;i<questionArr.length;i++){
-        let questionwillbesolvedpromise = questionsolver(page,questionArr[i],codefile.answers[i]);
-        
+    for (let i = 0; i < questionArr.length; i++) {
+        let questionwillbesolvedpromise = questionsolver(page, questionArr[i], codefile.answers[i]);
+
     }
 })
 
-function waitAndClick(selector,cpage){
-    return new Promise(function(resolve,reject){
+function waitAndClick(selector, cpage) {
+    return new Promise(function (resolve, reject) {
         let waitformodelpromise = cpage.waitForSelector(selector);
-        waitformodelpromise.then(function(){
-            let clickmodelpromise = cpage.click(selector,{delay:100});
+        waitformodelpromise.then(function () {
+            let clickmodelpromise = cpage.click(selector, { delay: 100 });
             return clickmodelpromise;
-        }).then(function(){
+        }).then(function () {
             resolve();
-        }).catch(function(){
+        }).catch(function () {
             reject();
         })
     })
 }
 
-function questionsolver(page,question,answer){
+// function questionsolver(page, question, answer) {
 
-    return new Promise(function(resolve,reject){
+//     return new Promise(function (resolve, reject) {
 
-        let questionwillbeclickedpromise = question.click();
-        questionwillbeclickedpromise.then(function(){
-            let waitForEditorpromise = waitAndClick(".monaco-editor.no-user-select.vs",page);
-            return waitForEditorpromise;
-        }).
-        then(function(){
-            return waitAndClick(".checkbox-input",page)
-        }).
-        then(function(){
-            return page.waitForSelector('.text-area.custominput')
-        }).then(function(){
-            return page.type('.text-area.custominput',answer,{delay:20})
-        }).then(function(){
-            console.log("Answer Typed");
-        })  .then(function () {
-            let ctrlIsPressedPromise = page.keyboard.down('Control');
-            return ctrlIsPressedPromise
-          }).then(function(){
-            let AisPressedPromise = page.keyboard.press('A' , {delay : 20});
-            return AisPressedPromise
-          }).then(function(){
-             let XisPressedPromise = page.keyboard.press('X' , {delay:20})
-             return XisPressedPromise
-          }).then(function(){
-            let ctrlIsReleasedPromise = page.keyboard.up('Control')
-            return ctrlIsReleasedPromise
-         }).then(function () {
-           let waitForEditorPromise = waitAndClick(
-             ".monaco-editor.no-user-select.vs",
-             page
-           );
-           return waitForEditorPromise;
-         }).then(function () {
-           let ctrlonHoldPromise = page.keyboard.down('Control');
-           return ctrlonHoldPromise
-         }).then(function(){
-           let AisPressedPromise = page.keyboard.press('A' , {delay : 20});
-           return AisPressedPromise
-         }).then(function(){
-           let VisPressedPromise = page.keyboard.press('V' , {delay:20})
-           return VisPressedPromise
-        }).then(function(){
-         let ctrlIsReleasedPromise = page.keyboard.up('Control')
-         return ctrlIsReleasedPromise
-      }).then(function(){
-         return page.click('.hr-monaco__run-code' , {delay : 20})
-      }).then(function(){
-        resolve()
-      }).catch(function(err){
-        console.log(err)
-      })
-    })
-}
+//         let questionwillbeclickedpromise = question.click();
+//         questionwillbeclickedpromise.then(function () {
+//             let waitForEditorpromise = waitAndClick(".monaco-editor.no-user-select.vs", page);
+//             return waitForEditorpromise;
+//         }).
+//             then(function () {
+//                 return waitAndClick(".checkbox-input", page)
+//             }).
+//             then(function () {
+//                 return page.waitForSelector('.text-area.custominput')
+//             }).then(function () {
+//                 return page.type('.text-area.custominput', answer, { delay: 20 })
+//             }).then(function () {
+//                 console.log("Answer Typed");
+//             }).then(function () {
+//                 let ctrlIsPressedPromise = page.keyboard.down('Control');
+//                 return ctrlIsPressedPromise
+//             }).then(function () {
+//                 let AisPressedPromise = page.keyboard.press('A', { delay: 20 });
+//                 return AisPressedPromise
+//             }).then(function () {
+//                 let XisPressedPromise = page.keyboard.press('X', { delay: 20 })
+//                 return XisPressedPromise
+//             }).then(function () {
+//                 let ctrlIsReleasedPromise = page.keyboard.up('Control')
+//                 return ctrlIsReleasedPromise
+//             }).then(function () {
+//                 let waitForEditorPromise = waitAndClick(
+//                     ".monaco-editor.no-user-select.vs",
+//                     page
+//                 );
+//                 return waitForEditorPromise;
+//             }).then(function () {
+//                 let ctrlonHoldPromise = page.keyboard.down('Control');
+//                 return ctrlonHoldPromise
+//             }).then(function () {
+//                 let AisPressedPromise = page.keyboard.press('A', { delay: 20 });
+//                 return AisPressedPromise
+//             }).then(function () {
+//                 let VisPressedPromise = page.keyboard.press('V', { delay: 20 })
+//                 return VisPressedPromise
+//             }).then(function () {
+//                 let ctrlIsReleasedPromise = page.keyboard.up('Control')
+//                 return ctrlIsReleasedPromise
+//             }).then(function () {
+//                 return page.click('.hr-monaco__run-code', { delay: 20 })
+//             }).then(function () {
+//                 resolve()
+//             }).catch(function (err) {
+//                 console.log(err)
+//             })
+//     })
+// }
 
 
-console.log("After");
+// console.log("After");
