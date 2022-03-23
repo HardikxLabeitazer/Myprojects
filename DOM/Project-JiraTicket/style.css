@@ -42,7 +42,7 @@ body{
     display:flex;
     justify-content: space-evenly;
     align-items: center;
-    background-color: rgba(255, 93, 255, 0.945);
+    background-color: rgb(205, 97, 255);
 }
 .action-btn-cont{
     height:3.5rem;
@@ -58,4 +58,31 @@ body{
   width:50%;
   font-size: 2.5rem;
   color:#b1acff;
+}
+
+.action-btn-cont>*:hover{
+    background-color: rgba(255, 255, 255, 0.342);
+    transition:0.5s;
+}
+
+.toolbox-priority-cont>*:hover{
+    background-color: rgb(255, 126, 66);
+    transition:0.5s;
+}
+.modal-cont{
+    height:50vh;
+    width:45vw;
+    background-color: rgba(255, 2, 200, 0.335);
+    position:absolute;
+    top:calc((100vh -  50vh)/2);
+    left:calc((100vw  - 45vw)/2)
+}
+
+.textarea-cont{
+    height:100%;
+    width:75%;
+    outline:none;
+    border:none;
+    background-color:rgb(251, 242, 242);
+    resize: none;
 }
