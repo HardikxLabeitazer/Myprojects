@@ -129,7 +129,7 @@ body{
 
 .ticket-id{
     height:2rem;
-    background-color: red;
+    background-color: rgba(0, 248, 215, 0.513);
 }
 .ticket-area{
     height:calc(100% - 1rem - 2rem);
