@@ -66,17 +66,17 @@ prioritycolorcont.forEach(function(colorelem){
         colorelem.classList.add('active');
 
         modalprioritycolor = colorelem.classList[0];
-        createticket(modalprioritycolor,textareaCont.value);
+        createticket(modalprioritycolor,textareaCont.value,shortid());
        
     })
 });
 
 
-function createticket(ticketcolorele,ticketvalue){
+function createticket(ticketcolorele,ticketvalue,ticketid){
     let divele = document.createElement("div");
     divele.setAttribute('class','ticket-cont'); 
     divele.innerHTML=`<div class="ticket-color ${ticketcolorele}"></div>
-    <div class="ticket-id"></div>
+    <div class="ticket-id">#${ticketid}</div>
     <div class="ticket-area">${ticketvalue}
     </div><div class="ticket-lock">
                     <i class="fa-solid fa-lock"></i>
