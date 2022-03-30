@@ -118,7 +118,7 @@ body{
     flex-wrap: wrap;
 }
 .ticket-cont{
-    height:13rem;
+    height:18rem;
     width:15rem;
     background-color: rgba(245, 212, 212, 0.363);
     
@@ -133,6 +133,19 @@ body{
     background-color: rgba(0, 255, 221, 0.513);
 }
 .ticket-area{
-    height:calc(100% - 1rem - 2rem);
+    height:calc(100% - 3rem - 2rem);
     font-size: 1.5rem;
+    outline: none;
+    overflow-y: scroll;
+    overflow-wrap: break-word;
+   
+    
+}
+.ticket-lock{
+  display:flex;
+  justify-content: flex-end;
+  margin-top: 0px;
+  margin-right: 5px;
+  font-size: 1.5rem;
+  height:2rem;
 }
