@@ -71,6 +71,7 @@ prioritycolorcont.forEach(function(colorelem){
     })
 });
 
+///////////////////// Create Ticket //////////////////////
 
 function createticket(ticketcolorele,ticketvalue,ticketid){
     let divele = document.createElement("div");
