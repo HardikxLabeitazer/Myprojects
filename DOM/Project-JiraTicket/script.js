@@ -8,7 +8,31 @@ let prioritycolorcont = document.querySelectorAll('.priority-color');
 
 let mainCont = document.querySelector('.main-cont');
 
-let textareaCont = document.querySelector(".textarea-cont");
+let textareaCont = document.querySelector(".textarea-cont"); //text area 
+
+let toolboxcolors = document.querySelectorAll('.color'); //color filter
+
+let ticketarr = [];
+
+for(let i = 0;i<toolboxcolors.length;i++){         //selecting each and every color and attaching event listener
+    toolboxcolors[i].addEventListener('click',function(e){
+        let currenttoolboxcolor = toolboxcolors[i].classList[0];
+
+        let filteredtickets = ticketarr.filter(function(ticketobj){
+            return currenttoolboxcolor === ticketobj.ticketcolorele;
+        });
+
+        let alltickets = document.querySelectorAll('.ticket-cont');
+
+        for(let i = 0;i<alltickets.length;i++){
+            alltickets[i].remove();
+        }
+        filteredtickets.forEach(function(filteredobj){
+            createticket(filteredobj.ticketcolorele,filteredobj.ticketvalue,filteredobj.ticketid);
+
+        })
+    })
+}
 let lockclass ='fa-lock';
 let unlockclass ='fa-lock-open';
 let addbtn = document.querySelector(".add-btn");
@@ -46,7 +70,7 @@ addbtn.addEventListener('click',function(e){
 modalCont.addEventListener("keydown",function(e){
     let key = e.key;
     if(key == "Shift"){
-        createticket(modalCont,textareaCont.value);
+        createticket(modalprioritycolor,textareaCont.value);
      modalCont.style.display ='none';
      addFlag=false;
      textareaCont.value ='';
@@ -66,7 +90,7 @@ prioritycolorcont.forEach(function(colorelem){
         colorelem.classList.add('active');
 
         modalprioritycolor = colorelem.classList[0];
-        createticket(modalprioritycolor,textareaCont.value,shortid());
+        
        
     })
 });
@@ -74,17 +98,23 @@ prioritycolorcont.forEach(function(colorelem){
 ///////////////////// Create Ticket //////////////////////
 
 function createticket(ticketcolorele,ticketvalue,ticketid){
+    let id = ticketid || shortid();
     let divele = document.createElement("div");
     divele.setAttribute('class','ticket-cont'); 
     divele.innerHTML=`<div class="ticket-color ${ticketcolorele}"></div>
-    <div class="ticket-id">#${ticketid}</div>
+    <div class="ticket-id">#${id}</div>
     <div class="ticket-area">${ticketvalue}
     </div><div class="ticket-lock">
                     <i class="fa-solid fa-lock"></i>
                 </div>`;
     mainCont.appendChild(divele);
     handleRemoval(divele);
+    handlecolor(divele);
     handleLock(divele);
+    if(!ticketid){
+        ticketarr.push({ticketcolorele,ticketvalue,ticketid:id});
+    }
+    
     
 }
 let removeFlag = false;
@@ -118,7 +148,7 @@ function handleLock(ticket){
            ticketLock.classList.remove(lockclass);
            ticketLock.classList.add(unlockclass);
            ticketTaskAra.setAttribute('contenteditable','true');
-           handlecolor(ticket);
+          
        }
        else{
         ticketLock.classList.remove(unlockclass);
