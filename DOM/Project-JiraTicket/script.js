@@ -13,7 +13,12 @@ let textareaCont = document.querySelector(".textarea-cont"); //text area
 let toolboxcolors = document.querySelectorAll('.color'); //color filter
 
 let ticketarr = [];
-
+if(localStorage.getItem("tickets")){
+    ticketarr=JSON.parse(localStorage.getItem("tickets"));
+    ticketarr.forEach(function(ticket){
+        createticket(ticket.ticketcolorele,ticket.ticketvalue,ticket.ticketid);
+    })
+}
 for(let i = 0;i<toolboxcolors.length;i++){         //selecting each and every color and attaching event listener
     toolboxcolors[i].addEventListener('click',function(e){
         let currenttoolboxcolor = toolboxcolors[i].classList[0];
@@ -32,6 +37,18 @@ for(let i = 0;i<toolboxcolors.length;i++){         //selecting each and every co
 
         })
     })
+    toolboxcolors[i].addEventListener('dblclick',function(e){
+        
+        let alltickets = document.querySelectorAll('.ticket-cont');
+
+        for(let i = 0;i<alltickets.length;i++){
+            alltickets[i].remove();
+        }
+
+        ticketarr.forEach(function(ticketobj){
+            createticket(ticketobj.ticketcolorele,ticketobj.ticketvalue,ticketobj.ticketid);
+        })
+    })
 }
 let lockclass ='fa-lock';
 let unlockclass ='fa-lock-open';
@@ -46,6 +63,22 @@ addbtn.addEventListener('click',function(e){
       modalCont.style.display = "none";
     }
 })
+
+
+
+modalCont.addEventListener("keydown",function(e){
+    let key = e.key;
+    if(key == "Shift"){
+        createticket(modalprioritycolor,textareaCont.value);
+     modalCont.style.display ='none';
+     addFlag=false;
+     textareaCont.value ='';
+     
+    }
+    
+ 
+});
+
 
 // let removebtn = document.querySelector(".remove-btn");
 // removebtn.addEventListener('click',function(e){
@@ -66,22 +99,6 @@ addbtn.addEventListener('click',function(e){
 //         modalcont.style.display = "none";
 //     }
 // });
-
-modalCont.addEventListener("keydown",function(e){
-    let key = e.key;
-    if(key == "Shift"){
-        createticket(modalprioritycolor,textareaCont.value);
-     modalCont.style.display ='none';
-     addFlag=false;
-     textareaCont.value ='';
-     
-    }
-    
- 
-});
-
-
-
 prioritycolorcont.forEach(function(colorelem){
     colorelem.addEventListener("click",function(e){
         prioritycolorcont.forEach(function(prioritycolorele){
@@ -113,6 +130,7 @@ function createticket(ticketcolorele,ticketvalue,ticketid){
     handleLock(divele);
     if(!ticketid){
         ticketarr.push({ticketcolorele,ticketvalue,ticketid:id});
+        localStorage.setItem("tickets",JSON.stringify(ticketarr));
     }
     
     
