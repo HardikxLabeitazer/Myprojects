@@ -1,8 +1,14 @@
-let modalCont = document.querySelector(".modal-cont");
+let modalCont = document.querySelector(".modal-cont");//modal
 
-let colors = ['red','blue','green','yellow'];
+
+
+let colors = ['red','blue','green','yellow'];//color strip 
+
+
 
 let modalprioritycolor = colors[colors.length-1];
+
+
 
 let prioritycolorcont = document.querySelectorAll('.priority-color');
 
@@ -66,7 +72,7 @@ addbtn.addEventListener('click',function(e){
 
 
 
-modalCont.addEventListener("keydown",function(e){
+modalCont.addEventListener("keydown",function(e){ //Creating a ticket by pressing shift key
     let key = e.key;
     if(key == "Shift"){
         createticket(modalprioritycolor,textareaCont.value);
