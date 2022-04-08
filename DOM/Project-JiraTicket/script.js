@@ -131,9 +131,9 @@ function createticket(ticketcolorele,ticketvalue,ticketid){
                     <i class="fa-solid fa-lock"></i>
                 </div>`;
     mainCont.appendChild(divele);
-    handleRemoval(divele);
-    handlecolor(divele);
-    handleLock(divele);
+    handleRemoval(divele,id);
+    handlecolor(divele,id);
+    handleLock(divele,id);
     if(!ticketid){
         ticketarr.push({ticketcolorele,ticketvalue,ticketid:id});
         localStorage.setItem("tickets",JSON.stringify(ticketarr));
@@ -153,40 +153,53 @@ removeBtn.addEventListener("click",function(e){
    }
 });
 
-function handleRemoval(ticket){
+function handleRemoval(ticket,id){
     ticket.addEventListener('click',function(){
-        if(removeFlag==true){
-            ticket.remove();
-        }
+        if(!removeFlag) return;
+
+        let idx = getTicketidx(id);
+
+        ticketarr.splice(idx,1)
+
+        let strTicketArray = JSON.stringify(ticketarr);
+
+        localStorage.setItem('tickets',strTicketArray)
+
+        ticket.remove()
+
     })
 }
 
 //Lock and Unlock
 
-function handleLock(ticket){
+function handleLock(ticket,id){
    let ticketLockEle = ticket.querySelector(".ticket-lock");
    let ticketLock = ticketLockEle.children[0];
-   let ticketTaskAra = ticket.querySelector('.ticket-area');
+   let ticketidx = getTicketidx(id);
+   let ticketTaskArea = ticket.querySelector('.ticket-area');
    ticketLock.addEventListener('click',function(e){
        if(ticketLock.classList.contains(lockclass)){
            ticketLock.classList.remove(lockclass);
            ticketLock.classList.add(unlockclass);
-           ticketTaskAra.setAttribute('contenteditable','true');
+           ticketTaskArea.setAttribute('contenteditable','true');
           
        }
        else{
         ticketLock.classList.remove(unlockclass);
         ticketLock.classList.add(lockclass);
-        ticketTaskAra.setAttribute('contenteditable','false');
+        ticketTaskArea.setAttribute('contenteditable','false');
        }
+       ticketarr[ticketidx].ticketvalue = ticketTaskArea.innerText;
+   localStorage.setItem('tickets',JSON.stringify(ticketarr))
    })
+   
 }
 
-function handlecolor(ticket){
+function handlecolor(ticket,id){
     let ticketcolorstrip = ticket.querySelector('.ticket-color');
     ticketcolorstrip.addEventListener('click',function(e){
         let currentticketcolor = ticketcolorstrip.classList[1];
-
+        let ticketidx = getTicketidx(id);
         let currentticketcoloridx = colors.findIndex(function(color){
             return currentticketcolor===color;
         });
@@ -197,6 +210,16 @@ function handlecolor(ticket){
 
         ticketcolorstrip.classList.remove(currentticketcolor);
         ticketcolorstrip.classList.add(newticketcolor);
+
+        ticketarr[ticketidx].ticketcolorele = newticketcolor;
+        localStorage.setItem('tickets',JSON.stringify(ticketarr))
         
     })
+}
+
+function getTicketidx(id){
+    let ticketidx = ticketarr.findIndex(function(ticketobj){
+        return ticketobj.ticketid ===id;
+    })
+    return ticketidx;
 }
