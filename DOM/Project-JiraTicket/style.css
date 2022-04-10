@@ -120,7 +120,7 @@ body{
 .ticket-cont{
     height:18rem;
     width:15rem;
-    background-color: rgba(245, 212, 212, 0.363);
+    background-color: rgba(245, 212, 212, 0.463);
     
 }
 .ticket-color{
@@ -130,7 +130,7 @@ body{
 
 .ticket-id{
     height:2rem;
-    background-color: rgba(0, 255, 221, 0.513);
+    background-color: rgba(0, 255, 221, 0.565);
 }
 .ticket-area{
     height:calc(100% - 3rem - 2rem);
