@@ -64,3 +64,28 @@
   height:70vh;
   width:100%;
 }
+
+
+/*Movie List*/
+.movies-list{
+  display:flex;
+  flex-wrap: wrap;
+  padding:1rem;
+  justify-content: center;
+}
+.movie-card{
+  margin:1rem;
+  width:20vw;
+  color:white;
+ 
+}
+.movie-title{
+  position:absolute;
+  top:1rem;
+  left:1rem;
+}
+.movies-button{
+  position: absolute;
+  bottom:2rem;
+}
+
