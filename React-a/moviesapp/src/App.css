@@ -89,3 +89,11 @@
   bottom:2rem;
 }
 
+/* Genre Selector */
+.genre-selector{
+   padding: 3rem;
+}
+
+.favourites-table{
+  padding:3rem;
+}
