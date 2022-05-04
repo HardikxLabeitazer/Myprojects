@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import axios from 'axios';
+import { movies } from '../movieData';
 // import { movies } from '../movieData'
 export class MovieList extends Component {
   constructor(){
@@ -8,7 +9,8 @@ export class MovieList extends Component {
       hover:"",
       parr: [1],
       movies: [],
-      currpage:1
+      currpage:1,
+      favourites:[]
     }
   }
   async componentDidMount(){
@@ -50,12 +52,34 @@ export class MovieList extends Component {
       },this.changeMovies)
     }
   }
+  handleFavourites=(movie)=>{
+
+    let oldData = JSON.parse(localStorage.getItem('movies-app') || '[]');
+    if(this.state.favourites.includes(movie.id)){
+      oldData = oldData.filter((m)=> m.id !== movie.id)
+    }
+    else{
+      oldData.push(movie);
+    }
+    localStorage.setItem("movies-app",JSON.stringify(oldData))
+    console.log(oldData)
+
+    this.handleFavouritesState()
+  }
+  handleFavouritesState=()=>{
+    let oldData = JSON.parse(localStorage.getItem('movies-app') || '[]');
+    let temp = oldData.map((movie)=> movie.id);
+    this.setState({
+      favourites:[...temp]
+    })
+
+  }
   render() {
     
     return (
       <>
-        <div>
-          <h3 className='text-center'><strong>Trending</strong></h3>
+        <div className='my-5 movieheader' >
+          <h2 className='text-center my-5'><strong>Trending</strong></h2>
         </div>
         <div className='movies-list'>
           {
@@ -68,7 +92,10 @@ export class MovieList extends Component {
                 <div className='button-wrapper' style={{ display: 'flex', justifyContent: 'center' }}>
                   {
                     this.state.hover ===movieEle.id &&
-                     <a href="/" className="btn btn-primary movies-button text-center">Add to Favourites</a>
+                     <a  className="btn btn-primary movies-button text-center" onClick={()=>(this.handleFavourites(movieEle))}>
+                       {this.state.favourites.includes(movieEle.id)? "Remove from Favourites":"Add to Favourites"}
+                      
+                       </a>
                   }
                  
 

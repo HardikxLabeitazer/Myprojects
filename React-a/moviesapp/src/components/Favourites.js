@@ -4,8 +4,9 @@ export class Favourites extends Component {
    constructor(){
        super();
        this.state={
-           genres:[]
-       }
+           genres:[],
+           currgenre:'All genres'
+       };
    }
     render() {
         const moviearr = movies.results;
@@ -21,14 +22,18 @@ export class Favourites extends Component {
         })
         temparr.unshift('All Genres');
         return (
-            <div className='main'>
+            <div className='main my-3'>
                 <div className='row'>
                     <div className='col-3'>
                         <ul className="list-group genre-selector">
                            
                             {
-                                temparr.map((genres)=>(
-                                    <li className="list-group-item">{genres}</li>
+                                temparr.map((genre) => (
+                                    this.state.currgenre === genre ?
+                                   <li style={{background:'#3f51b5' , color:'white' , fontWeight:'bold'}}class="list-group-item">{genre}</li> :
+                                   <li style={{color:'#3f51b5'}}class="list-group-item">{genre}</li>
+                   
+                   
 
                                 ))
                             }
@@ -36,7 +41,7 @@ export class Favourites extends Component {
                     </div>
                     <div className='col-9 favourites-table'>
                         <div className='row'>
-                            <input type="text" className='input-group-text col' />
+                            <input type="text" placeholder="Search" className='input-group-text col' />
                             <input type="number" className='input-group-text col' />
                         </div>
                         <table className="table">

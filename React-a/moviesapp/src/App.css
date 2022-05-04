@@ -39,9 +39,10 @@
 
 .banner-card{
   width:100vw;
+  background-color: white;
   margin-top:2vh;
-  margin-bottom:3vh;
-  height:70vh;
+  margin-bottom:1vh;
+  height:85vh;
   position:relative;
 }
 
@@ -61,16 +62,20 @@
     font-size: 20px;
 }
 .banner-img{
-  height:70vh;
+  height:100vh;
   width:100%;
+  margin-top:30px;
+  overflow: hidden;
+  
 }
 
 
 /*Movie List*/
 .movies-list{
+  margin-top:80px;
   display:flex;
   flex-wrap: wrap;
-  padding:1rem;
+  padding:0.5rem;
   justify-content: center;
 }
 .movie-card{
